@@ -9,3 +9,11 @@ bvals=`jq -r '.bvals' config.json`
 bvecs=`jq -r '.bvecs' config.json`
 cp ${bvals} ./dwi.bvals
 cp ${bvecs} ./dwi.bvecs
+
+if [ -f dwi.nii.gz ]; then
+  echo "denoising completed"
+  exit 0;
+else
+	echo "denoising failed"
+	exit 1;
+fi
