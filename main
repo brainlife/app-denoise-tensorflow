@@ -12,7 +12,7 @@ cp ${bvals} ./dwi/dwi.bvals
 cp ${bvecs} ./dwi/dwi.bvecs
 mv dwi.nii.gz ./dwi/
 
-if [ -f dwi.nii.gz ]; then
+if [ -f ./dwi/dwi.nii.gz ]; then
   echo "denoising completed"
   exit 0;
 else
