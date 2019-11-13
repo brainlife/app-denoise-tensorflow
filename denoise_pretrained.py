@@ -11,6 +11,8 @@ import tensorflow as tf
 #print(device_lib.list_local_devices())
 
 def getModel(x, nDim):
+    ## THIS GENERATES THE TF GRAPH TREE USED FOR TRAINING. SEE HU'S ABSTRACT
+    ## FOR MORE INFORMATION ABOUT THIS
     # Input Layer
     input_layer = tf.reshape(x, [-1, nDim, 1])
 
@@ -44,14 +46,17 @@ def getModel(x, nDim):
 
 
 def main():
+    # opens configuration file for inputs
     with open('config.json') as config_json:
         config = json.load(config_json)
     
+    # load brainmask
     masktmp = nib.load(str(config['mask']))
     msk_img = masktmp.get_fdata()
     sz = msk_img.shape
     msk = msk_img
-
+    
+    # load noisy SoS data
     tmp = nib.load(str(config['dwi_noise']))
     normal_img = tmp.get_fdata()
     sz = normal_img.shape
@@ -66,15 +71,18 @@ def main():
 
     sess = tf.InteractiveSession()
     sess.run(tf.global_variables_initializer())
-
+    
+    # loads pretrained models
     saver = tf.train.Saver()
     trainedPath = './pretrained-models/' + config['trainingSubj'] + '/' + str(config['iters']) + '/ckpt/model.ckpt'
     saver.restore(sess, trainedPath)
     
+    # set batch size and dumby image
     batch_size = int(config['batch_size']) #2000
     x = np.zeros((sz[3], sz[0] * sz[1] * sz[2]))
     size = 0
-
+    
+    # fit pretrained model graph to noisy SoS data
     for i in range(0, np.int(sz[0] * sz[1] * sz[2]), batch_size):
         size += batch_size
         if size <= (sz[0] * sz[1] * sz[2]):
