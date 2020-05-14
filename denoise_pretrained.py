@@ -98,7 +98,7 @@ def main():
     img_denoised = tmp.get_fdata()
     img_denoised[:, :, :,:] = x_img[:, :, :, :]
     for ii in range(0, nDim):
-        img_denoised[:, :, :, ii] = img_denoised[:, :, :, ii] * msk_img
+        img_denoised[:, :, :, ii] = img_denoised[:, :, :, ii] 
 
     x1 = nib.Nifti1Image(img_denoised, tmp.affine, tmp.header)
     nib.save(x1, 'dwi.nii.gz')
