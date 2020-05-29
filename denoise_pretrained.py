@@ -67,7 +67,7 @@ def main():
     # define tensorflow graph
     input = tf.placeholder(tf.float32, [None, nDim])
 
-    output = getModel(input, nDim)
+    output = getModel(input)
 
     sess = tf.InteractiveSession()
     sess.run(tf.global_variables_initializer())
@@ -95,10 +95,10 @@ def main():
 
     # masking and saving results
     x_img = np.float32(np.reshape(np.transpose(x), (sz[0], sz[1], sz[2], sz[3])))
-    img_denoised = tmp.get_fdata()
+    img_denoised = x_img
     img_denoised[:, :, :,:] = x_img[:, :, :, :]
     for ii in range(0, nDim):
-        img_denoised[:, :, :, ii] = img_denoised[:, :, :, ii]
+        img_denoised[:, :, :, ii] = img_denoised[:, :, :, ii] * msk_img
 
     x1 = nib.Nifti1Image(img_denoised, tmp.affine, tmp.header)
     nib.save(x1, 'dwi.nii.gz')
