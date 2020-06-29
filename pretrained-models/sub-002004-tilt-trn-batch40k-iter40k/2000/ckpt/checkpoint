@@ -1,0 +1,4 @@
+model_checkpoint_path: "model.ckpt"
+all_model_checkpoint_paths: "../ckpt_2subjects_100iter_sub002tilt004tiltAPPAb0iter40k/model.ckpt"
+all_model_checkpoint_paths: "../ckpt_2subjects_1000iter_sub002tilt004tiltAPPAb0iter40k/model.ckpt"
+all_model_checkpoint_paths: "model.ckpt"
